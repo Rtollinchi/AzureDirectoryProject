@@ -1,31 +1,24 @@
 require("dotenv").config();
 const { Client } = require("@microsoft/microsoft-graph-client");
 require("isomorphic-fetch");
-const { AuthorizationCode } = require("simple-oauth2");
+const msal = require("@azure/msal-node");
 
-const config = {
-  client: {
-    id: process.env.CLIENT_ID,
-    secret: process.env.CLIENT_SECRET,
-  },
+const pca = new msal.ConfidentialClientApplication({
   auth: {
-    tokenHost: "https://login.microsoftonline.com",
-    tokenPath: `/${process.env.TENANT_ID}/oauth2/v2.0/token`,
-    authorizePath: `/${process.env.TENANT_ID}/oauth2/v2.0/authorize`,
+    clientId: process.env.CLIENT_ID,
+    authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
+    clientSecret: process.env.CLIENT_SECRET,
   },
-};
-
-const oauth2Client = new AuthorizationCode(config);
+});
 
 async function getToken() {
   try {
-    const accessToken = await oauth2Client.getToken({
-      scope: "https://graph.microsoft.com/.default", // Modify scopes as needed
-      grant_type: "client_credentials",
+    const authResult = await pca.acquireTokenByClientCredential({
+      scopes: ["https://graph.microsoft.com/.default"],
     });
-    return accessToken.token.access_token;
+    return authResult.accessToken;
   } catch (error) {
-    console.error("Access Token Error:", error.message);
+    console.log("Acess Token Error:", error.messaage);
     return null;
   }
 }
