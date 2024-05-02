@@ -1,15 +1,7 @@
 require("dotenv").config();
 const { Client } = require("@microsoft/microsoft-graph-client");
 require("isomorphic-fetch");
-const msal = require("@azure/msal-node");
-
-const pca = new msal.ConfidentialClientApplication({
-  auth: {
-    clientId: process.env.CLIENT_ID,
-    authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
-    clientSecret: process.env.CLIENT_SECRET,
-  },
-});
+const { pca } = require("./server");
 
 async function getToken() {
   try {

@@ -6,7 +6,7 @@ require("dotenv").config();
 app.use(express.json()); //Middleware to parse JSON bodies
 
 app.get("/", (req, res) => {
-  res.send("Hello world!");
+  res.send("Welcome to the Azure Directory!");
 });
 
 //MSAL configuration
@@ -73,3 +73,6 @@ app.get("/redirect", (req, res) => {
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
+
+
+module.exports = { pca };
