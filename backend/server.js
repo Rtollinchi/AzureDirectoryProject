@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 require("dotenv").config();
+const { getUsers } = require("./graphClient");
+const cors = require("cors");
+
+app.use(cors({ origin: "http://localhost:3000" }));
 
 app.use(express.json()); //Middleware to parse JSON bodies
 
@@ -68,6 +72,20 @@ app.get("/redirect", (req, res) => {
       console.error("Error acquiring token:", error);
       res.status(500).send("Authentication failed");
     });
+});
+
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await getUsers();
+    if (users) {
+      res.json(users); // Send the user data as JSON
+    } else {
+      res.status(404).send("No users found");
+    }
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+    res.status(500).send("Server error");
+  }
 });
 
 app.listen(port, () => {

@@ -1,19 +1,6 @@
-require("dotenv").config();
 const { Client } = require("@microsoft/microsoft-graph-client");
 require("isomorphic-fetch");
-const { pca } = require("./server");
-
-async function getToken() {
-  try {
-    const authResult = await pca.acquireTokenByClientCredential({
-      scopes: ["https://graph.microsoft.com/.default"],
-    });
-    return authResult.accessToken;
-  } catch (error) {
-    console.log("Acess Token Error:", error.messaage);
-    return null;
-  }
-}
+const { getToken } = require("./auth");
 
 async function getUsers() {
   const accessToken = await getToken();
@@ -35,3 +22,5 @@ async function getUsers() {
 }
 
 getUsers();
+
+module.exports = { getUsers };
