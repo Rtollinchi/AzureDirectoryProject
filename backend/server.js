@@ -88,6 +88,36 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(400)
+      .send({ message: "Email and password are required." });
+  }
+
+  try {
+    //Authentication Logic
+    const authResult = await pca.acquireTokenByUsernamePassword({
+      scopes: ["user.read"],
+      username: email,
+      password: password,
+    });
+    if (authResult) {
+      res.status(200).send({
+        message: "Login Successful",
+        token: authResult.accessToken,
+      });
+    } else {
+      res.status(401).send({ message: "Authentication Failed" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error durning login", error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
