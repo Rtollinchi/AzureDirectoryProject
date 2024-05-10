@@ -32,16 +32,29 @@ const UserList = () => {
         {users.map((user) => (
           <li key={user.id}>
             <h3>{user.displayName}</h3> {/* Display Name */}
-            <p><strong>Given Name:</strong> {user.givenName}</p> {/* Given Name */}
-            <p><strong>Surname:</strong> {user.surname}</p> {/* Surname */}
-            <p><strong>Email:</strong> {user.userPrincipalName}</p> {/* User Principal Name */}
-            {user.jobTitle && <p><strong>Job Title:</strong> {user.jobTitle}</p>} {/* Job Title, shown only if available */}
-            {/* Add any other user details you want to display */}
+            <p>
+              <strong>Given Name:</strong> {user.givenName}
+            </p>{" "}
+            {/* Given Name */}
+            <p>
+              <strong>Surname:</strong> {user.surname}
+            </p>{" "}
+            {/* Surname */}
+            <p>
+              <strong>Email:</strong> {user.userPrincipalName}
+            </p>{" "}
+            {/* User Principal Name */}
+            {user.jobTitle && (
+              <p>
+                <strong>Job Title:</strong> {user.jobTitle}
+              </p>
+            )}{" "}
+            {/* Job Title, shown only if available */}
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default UserList;

@@ -1,13 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
-import UserList from './UserProfile';
+import React from 'react';
+import Login from './Login';
 
-function App() {
-  return (
-    <div className="App">
-      <UserList />
-    </div>
-  );
-}
+const App = () => {
+  return <Login />;
+};
 
 export default App;
