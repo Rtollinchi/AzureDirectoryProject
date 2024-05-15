@@ -4,6 +4,9 @@ const port = process.env.PORT || 8080;
 require("dotenv").config();
 const { getUsers } = require("./graphClient");
 const cors = require("cors");
+const { Client } = require("@microsoft/microsoft-graph-client");
+require("isomorphic-fetch");
+const { getToken } = require("./auth");
 
 app.use(cors({ origin: "http://localhost:3000" }));
 
@@ -115,6 +118,32 @@ app.post("/login", async (req, res) => {
     res
       .status(500)
       .send({ message: "Error durning login", error: error.message });
+  }
+});
+
+// New endpoint for searching users
+app.post("/api/search", async (req, res) => {
+  const { property, userName } = req.body;
+
+  try {
+    const accessToken = await getToken();
+    const client = Client.init({
+      authProvider: (done) => {
+        done(null, accessToken); // Pass the token directly
+      },
+    });
+
+    const filterQuery = `startswith(${property},'${userName}')`;
+    const result = await client.api("/users").filter(filterQuery).get();
+
+    if (result && result.value.length > 0) {
+      res.json(result.value);
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    res.status(500).send({ message: "Error retrieving user data" });
   }
 });
 
