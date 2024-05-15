@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,9 +17,10 @@ const Login = () => {
         email,
         password,
       });
-      if (response.data && response.data.token) {  // Check if the response includes a token
+      if (response.data && response.data.token) {
+        // Check if the response includes a token
         setMessage(response.data.message);
-        navigate('/users');  // Navigate to the UserList page
+        navigate("/users"); // Navigate to the UserList page
       } else {
         setMessage("Authentication failed, no token received.");
       }
@@ -31,7 +32,6 @@ const Login = () => {
       }
     }
   };
-
 
   return (
     <div>

@@ -6,15 +6,15 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./components/Login";
-import UserList from "./components/UserProfile";
+import UserSearchForm from "./components/UserSearchForm";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="*" element={<Navigate to="/Login" replace />} />
+        <Route path="/search" element={<UserSearchForm />} />
+        <Route path="*" element={<Navigate to="/search" replace />} />
       </Routes>
     </Router>
   );
