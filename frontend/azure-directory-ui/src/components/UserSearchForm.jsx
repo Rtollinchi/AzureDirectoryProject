@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserSearchForm = () => {
-  const [selectedProperty, setSelectedProperty] = useState('displayName');
-  const [userName, setUserName] = useState('');
+  const [selectedProperty, setSelectedProperty] = useState("displayName");
+  const [userName, setUserName] = useState("");
   const [userData, setUserData] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handlePropertyChange = (e) => {
     setSelectedProperty(e.target.value);
@@ -17,18 +19,24 @@ const UserSearchForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setUserData(null);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/search', {
+      const response = await axios.post("http://localhost:8080/api/search", {
         property: selectedProperty,
         userName,
       });
       setUserData(response.data);
     } catch (error) {
-      setError('Error retrieving user data');
+      setError("Error retrieving user data");
     }
+  };
+
+  const handleLogout = () => {
+    // Clear any user data, tokens, etc.
+    // Redirect to the login page
+    navigate("/");
   };
 
   return (
@@ -40,7 +48,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="displayName"
-              checked={selectedProperty === 'displayName'}
+              checked={selectedProperty === "displayName"}
               onChange={handlePropertyChange}
             />
             Display Name
@@ -49,7 +57,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="givenName"
-              checked={selectedProperty === 'givenName'}
+              checked={selectedProperty === "givenName"}
               onChange={handlePropertyChange}
             />
             First Name
@@ -58,7 +66,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="surname"
-              checked={selectedProperty === 'surname'}
+              checked={selectedProperty === "surname"}
               onChange={handlePropertyChange}
             />
             Last Name
@@ -67,7 +75,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="userPrincipalName"
-              checked={selectedProperty === 'userPrincipalName'}
+              checked={selectedProperty === "userPrincipalName"}
               onChange={handlePropertyChange}
             />
             User Principal Name
@@ -76,7 +84,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="jobTitle"
-              checked={selectedProperty === 'jobTitle'}
+              checked={selectedProperty === "jobTitle"}
               onChange={handlePropertyChange}
             />
             Job Title
@@ -85,7 +93,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="companyName"
-              checked={selectedProperty === 'companyName'}
+              checked={selectedProperty === "companyName"}
               onChange={handlePropertyChange}
             />
             Company Name
@@ -94,7 +102,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="department"
-              checked={selectedProperty === 'department'}
+              checked={selectedProperty === "department"}
               onChange={handlePropertyChange}
             />
             Department
@@ -103,7 +111,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="employeeId"
-              checked={selectedProperty === 'employeeId'}
+              checked={selectedProperty === "employeeId"}
               onChange={handlePropertyChange}
             />
             Employee ID
@@ -112,7 +120,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="employeeType"
-              checked={selectedProperty === 'employeeType'}
+              checked={selectedProperty === "employeeType"}
               onChange={handlePropertyChange}
             />
             Employee Type
@@ -121,7 +129,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="employeeHireDate"
-              checked={selectedProperty === 'employeeHireDate'}
+              checked={selectedProperty === "employeeHireDate"}
               onChange={handlePropertyChange}
             />
             Employee Hire Date
@@ -130,7 +138,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="officeLocation"
-              checked={selectedProperty === 'officeLocation'}
+              checked={selectedProperty === "officeLocation"}
               onChange={handlePropertyChange}
             />
             Office Location
@@ -139,7 +147,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="manager"
-              checked={selectedProperty === 'manager'}
+              checked={selectedProperty === "manager"}
               onChange={handlePropertyChange}
             />
             Manager
@@ -148,7 +156,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="sponsors"
-              checked={selectedProperty === 'sponsors'}
+              checked={selectedProperty === "sponsors"}
               onChange={handlePropertyChange}
             />
             Sponsors
@@ -157,7 +165,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="streetAddress"
-              checked={selectedProperty === 'streetAddress'}
+              checked={selectedProperty === "streetAddress"}
               onChange={handlePropertyChange}
             />
             Street Address
@@ -166,7 +174,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="city"
-              checked={selectedProperty === 'city'}
+              checked={selectedProperty === "city"}
               onChange={handlePropertyChange}
             />
             City
@@ -175,7 +183,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="stateOrProvince"
-              checked={selectedProperty === 'stateOrProvince'}
+              checked={selectedProperty === "stateOrProvince"}
               onChange={handlePropertyChange}
             />
             State or Province
@@ -184,7 +192,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="postalCode"
-              checked={selectedProperty === 'postalCode'}
+              checked={selectedProperty === "postalCode"}
               onChange={handlePropertyChange}
             />
             ZIP or Postal Code
@@ -193,7 +201,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="countryOrRegion"
-              checked={selectedProperty === 'countryOrRegion'}
+              checked={selectedProperty === "countryOrRegion"}
               onChange={handlePropertyChange}
             />
             Country or Region
@@ -202,7 +210,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="businessPhone"
-              checked={selectedProperty === 'businessPhone'}
+              checked={selectedProperty === "businessPhone"}
               onChange={handlePropertyChange}
             />
             Business Phone
@@ -211,7 +219,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="mobilePhone"
-              checked={selectedProperty === 'mobilePhone'}
+              checked={selectedProperty === "mobilePhone"}
               onChange={handlePropertyChange}
             />
             Mobile Phone
@@ -220,7 +228,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="email"
-              checked={selectedProperty === 'email'}
+              checked={selectedProperty === "email"}
               onChange={handlePropertyChange}
             />
             Email
@@ -229,7 +237,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="otherEmails"
-              checked={selectedProperty === 'otherEmails'}
+              checked={selectedProperty === "otherEmails"}
               onChange={handlePropertyChange}
             />
             Other Emails
@@ -238,7 +246,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="faxNumber"
-              checked={selectedProperty === 'faxNumber'}
+              checked={selectedProperty === "faxNumber"}
               onChange={handlePropertyChange}
             />
             Fax Number
@@ -247,7 +255,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="mailNickname"
-              checked={selectedProperty === 'mailNickname'}
+              checked={selectedProperty === "mailNickname"}
               onChange={handlePropertyChange}
             />
             Mail Nickname
@@ -256,7 +264,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="ageGroup"
-              checked={selectedProperty === 'ageGroup'}
+              checked={selectedProperty === "ageGroup"}
               onChange={handlePropertyChange}
             />
             Age Group
@@ -265,7 +273,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="consentProvidedForMinor"
-              checked={selectedProperty === 'consentProvidedForMinor'}
+              checked={selectedProperty === "consentProvidedForMinor"}
               onChange={handlePropertyChange}
             />
             Consent Provided for Minor
@@ -274,7 +282,7 @@ const UserSearchForm = () => {
             <input
               type="radio"
               value="usageLocation"
-              checked={selectedProperty === 'usageLocation'}
+              checked={selectedProperty === "usageLocation"}
               onChange={handlePropertyChange}
             />
             Usage Location
@@ -283,7 +291,12 @@ const UserSearchForm = () => {
         <div>
           <label>
             User Name:
-            <input type="text" value={userName} onChange={handleUserNameChange} required />
+            <input
+              type="text"
+              value={userName}
+              onChange={handleUserNameChange}
+              required
+            />
           </label>
         </div>
         <button type="submit">Search</button>
@@ -295,6 +308,7 @@ const UserSearchForm = () => {
           <pre>{JSON.stringify(userData, null, 2)}</pre>
         </div>
       )}
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
