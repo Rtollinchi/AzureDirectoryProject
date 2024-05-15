@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,19 +17,21 @@ const Login = () => {
         email,
         password,
       });
-      setMessage(response.data.message);
-      // Handle login success, perhaps setting a global user state or redirecting
+      if (response.data && response.data.token) {  // Check if the response includes a token
+        setMessage(response.data.message);
+        navigate('/users');  // Navigate to the UserList page
+      } else {
+        setMessage("Authentication failed, no token received.");
+      }
     } catch (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         setMessage(error.response.data.message);
       } else {
-        // Something happened in setting up the request that triggered an Error
         setMessage("Login failed: Network error");
       }
     }
   };
+
 
   return (
     <div>
