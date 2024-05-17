@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Login.css"; // Import the CSS file
+import glgLogo from '../assets/glg-logo.png'; // Adjust the path based on where you saved the logo
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -34,7 +36,8 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-form">
+      <img src={glgLogo} alt="GLG Logo" className="login-logo" />
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
