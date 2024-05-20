@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./UserSearchForm.css"; // Ensure you have imported the CSS file
+import "./UserSearchForm.css";
 import glgLogo from "../assets/glg-logo.png";
 
 const UserSearchForm = () => {
@@ -37,6 +37,15 @@ const UserSearchForm = () => {
 
   const handleLogout = () => {
     navigate("/");
+  };
+
+  const renderUserData = (data) => {
+    return Object.entries(data).map(([key, value]) => (
+      <div key={key} className="user-data-row">
+        <span className="user-data-label">{key}:</span>
+        <span className="user-data-value">{value}</span>
+      </div>
+    ));
   };
 
   return (
@@ -100,9 +109,9 @@ const UserSearchForm = () => {
       </form>
       {error && <p>{error}</p>}
       {userData && (
-        <div>
+        <div className="user-data">
           <h3>Retrieved Data:</h3>
-          <pre>{JSON.stringify(userData, null, 2)}</pre>
+          {renderUserData(userData)}
         </div>
       )}
       <button onClick={handleLogout}>Logout</button>

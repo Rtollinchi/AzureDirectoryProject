@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"; // Import the CSS file
-import glgLogo from '../assets/glg-logo.png'; // Adjust the path based on where you saved the logo
+import "./Login.css"; 
+import glgLogo from '../assets/glg-logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState("");

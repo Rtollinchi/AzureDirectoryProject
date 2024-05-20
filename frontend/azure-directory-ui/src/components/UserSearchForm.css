@@ -1,6 +1,7 @@
 .user-search-form {
   max-width: 600px;
   margin: 0 auto;
+  margin-top: 80px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -78,12 +79,29 @@
   font-weight: bold;
 }
 
-.user-search-form pre {
-  text-align: left;
-  background: #eee;
-  padding: 10px;
-  border-radius: 5px;
+.user-data {
   width: 100%;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  margin-top: 20px;
+}
+
+.user-data h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-data-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-data-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.user-data-value {
+  flex: 1;
+  text-align: left;
 }
