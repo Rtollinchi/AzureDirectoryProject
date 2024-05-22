@@ -6,8 +6,8 @@ import glgLogo from "../assets/glg-logo.png";
 
 const UserSearchForm = () => {
   const [selectedProperty, setSelectedProperty] = useState("displayName");
-  const [userName, setUserName] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [userData, setUserData] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -15,19 +15,19 @@ const UserSearchForm = () => {
     setSelectedProperty(e.target.value);
   };
 
-  const handleUserNameChange = (e) => {
-    setUserName(e.target.value);
+  const handleSearchValueChange = (e) => {
+    setSearchValue(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setUserData(null);
+    setUserData([]);
 
     try {
       const response = await axios.post("http://localhost:8080/api/search", {
         property: selectedProperty,
-        userName,
+        userName: searchValue,
       });
       setUserData(response.data);
     } catch (error) {
@@ -39,15 +39,21 @@ const UserSearchForm = () => {
     navigate("/");
   };
 
-  const renderUserData = (users) => {
-    return users.map((user, index) => (
-      <div key={user.id || index} className="user-data">
-        <h3>Retrieved Data:</h3>
+  const convertCamelCaseToTitle = (text) => {
+    return text
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, function (str) {
+        return str.toUpperCase();
+      });
+  };
+
+
+  const renderUserData = (data) => {
+    return data.map((user, index) => (
+      <div key={index} className="user-data">
         <div className="user-data-row">
           <span className="user-data-label">Business Phones:</span>
-          <span className="user-data-value">
-            {Array.isArray(user.businessPhones) ? user.businessPhones.join(", ") : "N/A"}
-          </span>
+          <span className="user-data-value">{Array.isArray(user.businessPhones) && user.businessPhones.length > 0 ? user.businessPhones.join(", ") : "N/A"}</span>
         </div>
         <div className="user-data-row">
           <span className="user-data-label">Display Name:</span>
@@ -99,53 +105,70 @@ const UserSearchForm = () => {
       <h2>Search User Data</h2>
       <form onSubmit={handleSubmit}>
         <div className="radio-buttons">
-          {[
-            "displayName",
-            "givenName",
-            "surname",
-            "userPrincipalName",
-            "jobTitle",
-            "companyName",
-            "department",
-            "employeeId",
-            "employeeType",
-            "employeeHireDate",
-            "officeLocation",
-            "manager",
-            "sponsors",
-            "streetAddress",
-            "city",
-            "stateOrProvince",
-            "postalCode",
-            "countryOrRegion",
-            "businessPhone",
-            "mobilePhone",
-            "email",
-            "otherEmails",
-            "faxNumber",
-            "mailNickname",
-            "ageGroup",
-            "consentProvidedForMinor",
-            "usageLocation",
-          ].map((property) => (
-            <label key={property}>
-              <input
-                type="radio"
-                value={property}
-                checked={selectedProperty === property}
-                onChange={handlePropertyChange}
-              />
-              {property}
-            </label>
-          ))}
+          <div className="radio-group">
+            <h4>Basic Info</h4>
+            {["displayName", "givenName", "surname", "userPrincipalName", "jobTitle"].map((property) => (
+              <label key={property}>
+                <input
+                  type="radio"
+                  value={property}
+                  checked={selectedProperty === property}
+                  onChange={handlePropertyChange}
+                />
+                {convertCamelCaseToTitle(property)}
+              </label>
+            ))}
+          </div>
+          <div className="radio-group">
+            <h4>Contact Info</h4>
+            {["businessPhone", "mobilePhone", "email", "otherEmails", "faxNumber"].map((property) => (
+              <label key={property}>
+                <input
+                  type="radio"
+                  value={property}
+                  checked={selectedProperty === property}
+                  onChange={handlePropertyChange}
+                />
+                {convertCamelCaseToTitle(property)}
+              </label>
+            ))}
+          </div>
+          <div className="radio-group">
+            <h4>Location Info</h4>
+            {["officeLocation", "streetAddress", "city", "stateOrProvince", "postalCode", "countryOrRegion"].map((property) => (
+              <label key={property}>
+                <input
+                  type="radio"
+                  value={property}
+                  checked={selectedProperty === property}
+                  onChange={handlePropertyChange}
+                />
+                {convertCamelCaseToTitle(property)}
+              </label>
+            ))}
+          </div>
+          <div className="radio-group">
+            <h4>Other Info</h4>
+            {["companyName", "department", "employeeId", "employeeType", "employeeHireDate", "manager", "sponsors", "mailNickname", "ageGroup", "consentProvidedForMinor", "usageLocation"].map((property) => (
+              <label key={property}>
+                <input
+                  type="radio"
+                  value={property}
+                  checked={selectedProperty === property}
+                  onChange={handlePropertyChange}
+                />
+                {convertCamelCaseToTitle(property)}
+              </label>
+            ))}
+          </div>
         </div>
         <div>
           <label>
-            User Name:
+            Search Term:
             <input
               type="text"
-              value={userName}
-              onChange={handleUserNameChange}
+              value={searchValue}
+              onChange={handleSearchValueChange}
               required
             />
           </label>
@@ -153,12 +176,7 @@ const UserSearchForm = () => {
         <button type="submit">Search</button>
       </form>
       {error && <p>{error}</p>}
-      {userData && (
-        <div className="user-data">
-          <h3>Retrieved Data:</h3>
-          {renderUserData(userData)}
-        </div>
-      )}
+      {userData && renderUserData(userData)}
       <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
   );
