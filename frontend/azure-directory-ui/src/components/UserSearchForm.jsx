@@ -39,11 +39,56 @@ const UserSearchForm = () => {
     navigate("/");
   };
 
-  const renderUserData = (data) => {
-    return Object.entries(data).map(([key, value]) => (
-      <div key={key} className="user-data-row">
-        <span className="user-data-label">{key}:</span>
-        <span className="user-data-value">{value}</span>
+  const renderUserData = (users) => {
+    return users.map((user, index) => (
+      <div key={user.id || index} className="user-data">
+        <h3>Retrieved Data:</h3>
+        <div className="user-data-row">
+          <span className="user-data-label">Business Phones:</span>
+          <span className="user-data-value">
+            {Array.isArray(user.businessPhones) ? user.businessPhones.join(", ") : "N/A"}
+          </span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Display Name:</span>
+          <span className="user-data-value">{user.displayName || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Given Name:</span>
+          <span className="user-data-value">{user.givenName || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Job Title:</span>
+          <span className="user-data-value">{user.jobTitle || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Email:</span>
+          <span className="user-data-value">{user.mail || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Mobile Phone:</span>
+          <span className="user-data-value">{user.mobilePhone || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Office Location:</span>
+          <span className="user-data-value">{user.officeLocation || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Preferred Language:</span>
+          <span className="user-data-value">{user.preferredLanguage || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">Surname:</span>
+          <span className="user-data-value">{user.surname || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">User Principal Name:</span>
+          <span className="user-data-value">{user.userPrincipalName || "N/A"}</span>
+        </div>
+        <div className="user-data-row">
+          <span className="user-data-label">ID:</span>
+          <span className="user-data-value">{user.id || "N/A"}</span>
+        </div>
       </div>
     ));
   };
@@ -114,7 +159,7 @@ const UserSearchForm = () => {
           {renderUserData(userData)}
         </div>
       )}
-      <button onClick={handleLogout}>Logout</button>
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
